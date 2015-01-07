@@ -14,9 +14,9 @@ LOG_FILE=/var/log/mc-back.log
 
 ## start  ##
 echo "[$(date +"%m-%d-%Y") $(date +"%H%M")] Minecraft Backup started" >> $LOG_FILE
-screen -p 0 -S Cauldron_1-7-10 -X stuff "say $(date +"%H%M") [$(uname -n)] SERVER is preforming an incremental backup of $REMOTE_HOST. LOCAL server shutting down in 30 seconds$(printf \\r)"
+screen -p 0 -S SCREEN_Cauldron_1-7-10 -X stuff "say $(date +"%H%M") [$(uname -n)] SERVER is preforming an incremental backup of $REMOTE_HOST. LOCAL server shutting down in 30 seconds$(printf \\r)"
 sleep 30
-screen -p 0 -S Cauldron_1-7-10 -X stuff "stop$(printf \\r)"
+screen -p 0 -S SCREEN_Cauldron_1-7-10 -X stuff "stop$(printf \\r)"
 
 MCPID=$(ps aux | grep [S]CREEN_Cauldron_1-7-10 | awk '{print $2}')
 echo "[$(date +"%m-%d-%Y") $(date +"%H%M")] waiting for $MCPID to finish......" >> $LOG_FILE
