@@ -18,11 +18,11 @@ screen -p 0 -S Cauldron_1-7-10 -X stuff "say $(date +"%H%M") [$(uname -n)] SERVE
 sleep 30
 screen -p 0 -S Cauldron_1-7-10 -X stuff "stop$(printf \\r)"
 
-MCPID=$(ps aux | grep [C]auldron_1-7-10 | awk '{print $2}')
+MCPID=$(ps aux | grep [S]CREEN_Cauldron_1-7-10 | awk '{print $2}')
 echo "[$(date +"%m-%d-%Y") $(date +"%H%M")] waiting for $MCPID to finish......" >> $LOG_FILE
 ssh $REMOTE_USER@$REMOTE_HOST "screen -p 0 -S Cauldron_1-7-10 -X stuff 'say $(date +"%H%M") MST [$(uname -n)] Systems are preparing for full sync $(uname -n) is going down.$(printf \\r)'"
 
-while [[ -n $(ps aux | grep [C]auldron_1-7-10 | awk '{print $2}') ]]
+while [[ -n $(ps aux | grep [S]CREEN_Cauldron_1-7-10 | awk '{print $2}') ]]
 do
 true ## Stupid loop can NOT be empty >..<
 done
@@ -34,7 +34,7 @@ rsync -avzhe ssh $REMOTE_USER@$REMOTE_HOST:/opt/Cauldron_1-7-10_1-1207-01-198 /o
 echo "[$(date +"%m-%d-%Y") $(date +"%H%M")] Minecraft systems synced" >> $LOG_FILE
 ssh $REMOTE_USER@$REMOTE_HOST "screen -p 0 -S Cauldron_1-7-10 -X stuff 'say $(date +"%H%M") MST [$(uname -n)] Systems Synced. $(uname -n) restarting.$(printf \\r)'"
 ## turn local MC back online ##
-screen -d -m -S Cauldron_1-7-10 bash -c 'java -Xmx2G -Xms1G -XX:MaxPermSize=1024m -XX:+CMSClassUnloadingEnabled -jar cauldron-1.7.10-1.1207.01.198-server.jar'
+screen -d -m -S SCREEN_Cauldron_1-7-10 bash -c 'java -Xmx2G -Xms1G -XX:MaxPermSize=1024m -XX:+CMSClassUnloadingEnabled -jar cauldron-1.7.10-1.1207.01.198-server.jar'
 
 ### MODE PUSH ###
 ## TODO add in code to push a local copy out to the remote host
