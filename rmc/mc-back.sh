@@ -2,9 +2,10 @@
 
 ## User provided Variables ##
 REMOTE_USER=user
-REMOTE_HOST=host.name
+REMOTE_HOST=host
 SSH_PORT=22
-SCREEN_NAME=mc_server_screen_name
+SCREEN_NAME=1-7-10_forge
+
 LOG_FILE=/var/log/mc-back.log
 TIME_ZONE=":US/Pacific"
 
@@ -23,9 +24,8 @@ function MCCommunicate()
 echo "[$NOW $(date +"%H:%M")] Minecraft Backup started" >> $LOG_FILE
 MCCommunicate "say [$(TZ=$TIME_ZONE date +"%H:%M")] [$(uname -n)] Performing an incremental backup of the world."
 
-## Adds an --exclude for the dynmap folder >..< saves bandwidth as we have to re render the map on our side anyway
-## this also cuts sync time to almost 1 minute ^_^
-rsync -avzh -e "ssh -p $SSH_PORT" $REMOTE_USER@$REMOTE_HOST:/opt/minecraft /opt/
+# During sync delete removed files so our copy is identical to the master, also ignore logs and remove them from our local copy.
+rsync -avzh --delete-during --delete-excluded --exclude-from=/opt/etc/exclude.conf -e "ssh -p $SSH_PORT" $REMOTE_USER@$REMOTE_HOST:/opt/minecraft /opt/ >> $LOG_FILE
 
 echo "[$NOW $(date +"%H:%M")] Minecraft systems synced" >> $LOG_FILE
 MCCommunicate "say [$(TZ=$TIME_ZONE date +"%H:%M")] [$(uname -n)] Systems synced."

@@ -1,0 +1,12 @@
+/var/log/mc-back.log
+{
+        rotate 7
+        daily
+        missingok
+        notifempty
+        delaycompress
+        compress
+        postrotate
+		/opt/bin/mc-rotate.sh "Server log files rotated."
+        endscript
+}
