@@ -1,0 +1,48 @@
+#!/bin/bash
+
+## User provided Variables ##
+REMOTE_USER=admiral
+REMOTE_HOST=starfleetdelta.com
+SSH_PORT=22
+SCREEN_NAME=1-7-10_forge
+LOG_FILE=/var/log/mc-back.log
+TIME_ZONE=":US/Pacific"
+
+## SYSTEM VARIABLES DO NOT CHANGE ##
+NOW=$(date +"%m-%d-%Y")
+
+## Functions ##
+
+function MCCommunicate()
+{
+    # Dont forget to set NAME or whatever
+    ssh -p $SSH_PORT $REMOTE_USER@$REMOTE_HOST screen -S $SCREEN_NAME -p 0 -X stuff \"$1$(printf \\r)\"
+}
+
+## start  ##
+echo "[$NOW $(date +"%H:%M")] Minecraft restart in 1 minute." >> $LOG_FILE
+MCCommunicate "say [$(TZ=$TIME_ZONE date +"%H:%M")] [$(uname -n)] Performing server restart in 1 minute."
+
+sleep 50s
+
+MCCommunicate "say [$(TZ=$TIME_ZONE date +"%H:%M")] [$(uname -n)] Server restarting in 10 seconds. Any one left on the server will be kicked."
+
+sleep 5s
+
+MCCommunicate "save-off"
+MCCommunicate "save-all"
+MCCommunicate "backup"
+MCCommunicate "save-on"
+MCCommunicate "say Server backed up and ready to reboot please allow 2 to 5 minutes before joining the server."
+
+sleep 2s
+
+MCCommunicate "stop"
+
+# restart the server here let the start script wait for the server to stop
+
+ssh -p $SSH_PORT $REMOTE_USER@$REMOTE_HOST "cd /opt/minecraft; ./mcstart.bash"
+
+
+
+echo "[$NOW $(date +"%H:%M")] Minecraft Server started" >> $LOG_FILE
