@@ -1,2 +1,2 @@
 #!/bin/bash
-screen -d -m -S SCREEN_Cauldron_1-7-10 bash -c 'java -Xmx10G -Xms1G -jar -XX:MaxPermSize=1024m -XX:+CMSClassUnloadingEnabled cauldron-1.7.10-1.1207.01.198-server.jar'
+screen -d -m -S SCREEN_PixelmonTrains_1.12.2 bash -c 'java -Xmx7518M -Xms1G -jar -XX:MaxPermSize=1024m -XX:+CMSClassUnloadingEnabled -jar forge-1.12.2-14.23.5.2838-universal.jar nogui'
