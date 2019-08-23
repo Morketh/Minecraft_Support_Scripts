@@ -48,7 +48,7 @@ MCCommunicate "say [$(TZ=$TIME_ZONE date +"%H:%M") US-Pac] [$(uname -n)] Perform
 
 # During sync delete removed files so our copy is identical to the master, also ignore logs and remove them from our local copy.
 if [ "$REMOTE_BACKUP" = true ]; then
-    rsync -avh --compress-level=10 --itemize-changes --sparse --delete-during --delete-excluded --exclude-from=$EXCLUDE_FROM -e "ssh -p $SSH_PORT" $REMOTE_USER@$REMOTE_HOST:$PATH_FROM/$SERVER_NAME/ $PATH_TO/$SERVER_NAME >> $LOG_FILE
+    rsync -avh --compress-level=10 --itemize-changes --sparse --delete-during --delete-excluded --exclude-from=$EXCLUDE_FROM -e "ssh -p $SSH_PORT" $PATH_FROM/$SERVER_NAME/ $REMOTE_USER@$REMOTE_HOST:$PATH_TO/$SERVER_NAME >> $LOG_FILE
 else
     rsync -avh --compress-level=10 --itemize-changes --sparse --delete-during --delete-excluded --exclude-from=$EXCLUDE_FROM  $PATH_FROM/$SERVER_NAME/ $PATH_TO/$SERVER_NAME >> $LOG_FILE
 fi
