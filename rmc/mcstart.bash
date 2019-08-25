@@ -5,6 +5,7 @@ MIN_MEMORY=2G
 MAX_PERM_SIZE=4G
 SERVER_NAME=PixelmonRails
 
+MC_SCREEN_CFG=config/screen.cfg
 TIME_ZONE=":US/Pacific"
 
 ## System variables DO NOT EDIT ##
@@ -28,7 +29,7 @@ echo "[$NOW] Forge Essentials is upto date." >> $LOG_FILE
 echo "[$NOW] Minecraft server sarting up." >> $LOG_FILE
 
 # Load the screen use the configuration file inorder to load some defualt values.
-screen -c config/screen.cfg -d -m -L -S $SERVER_NAME bash -c "java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY -jar -XX:MaxPermSize=$MAX_PERM_SIZE -XX:+CMSClassUnloadingEnabled $JAR nogui"&
+screen -c $MC_SCREEN_CFG -d -m -L -S $SERVER_NAME bash -c "java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY -jar -XX:MaxPermSize=$MAX_PERM_SIZE -XX:+CMSClassUnloadingEnabled $JAR nogui"&
 echo $! > server.pid
 
 echo "[$NOW] Minecraft Server started with PID $!" >> $LOG_FILE
